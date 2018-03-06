@@ -1,14 +1,12 @@
 function validateInput(e) {        
-    console.log(e);
-    
-    // TODO 
-    // only permit numbers as input 
-    // if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key) && e.target.keyCode !== 8){
-    //     console.log(e);
-        
-        // e.target.value = '';
-    // }
+    // only permit a single number as input 
+    if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.data)) {
+        e.target.value = '';
+    } else if (e.data.length === 1) {
+        e.target.value = e.data;
+    }
 
+    // TODO: Validate against all other numbers in row & column 
     // validate against row 
     // validate against column 
 }

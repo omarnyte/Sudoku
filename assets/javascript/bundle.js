@@ -101,39 +101,40 @@ exports.checkBoard = function () {
 //     })
 // }
 
-function createBoards() {
-    var diff = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'easy';
+// function createBoards(diff = 'easy') {
+//     const diffMap = {
+//         'easy': 45,
+//         'medium': 35,
+//         'hard': 25
+//     }
 
-    var diffMap = {
-        'easy': 45,
-        'medium': 35,
-        'hard': 25
-    };
+//     let solvedBoard = []; 
 
-    var solvedBoard = [];
+//     for (let i = 0; i < 81; i++) {
+//         solvedBoard.push(0);
+//     }
 
-    for (var i = 0; i < 81; i++) {
-        solvedBoard.push(0);
-    }
+//     let j = diffMap[diff];  
+//     solvedBoard.forEach((num, idx) => {
+//         // Math.ceil(Math.random() * 10)
+//         // check against row 
+//         const rowIndex = Math.floor(idx / 9);
+//         const rowStart = rowIndex * 9;
+//         const rowEnd = rowStart + 9;
+//         for (let i = rowStart; i < rowEnd; i++) {
+//             let placed = false; 
+//         }
 
-    var j = diffMap[diff];
-    solvedBoard.forEach(function (num, idx) {
-        // Math.ceil(Math.random() * 10)
-        // check against row 
-        var rowIndex = Math.floor(idx / 9);
-        var rowStart = rowIndex * 9;
-        var rowEnd = rowStart + 9;
-        for (var _i = rowStart; _i < rowEnd; _i++) {
-            var placed = false;
-        }
 
-        // check against column 
+//         // check against column 
+//     })
+
+// } 
+
+function setupBoard(numbers) {
+    numbers.forEach(function (num, idx) {
+        (0, _tile2.default)(num, idx);
     });
-}
-
-function setupBoard() {
-    createBoards();
-    // const [unsolvedBoard, solvedBoard] = createBoards();
 }
 exports.default = setupBoard;
 
@@ -198,7 +199,7 @@ var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9,
 
 var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4,, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
 
-(0, _board2.default)();
+(0, _board2.default)(unsolvedBoard);
 (0, _buttons2.default)();
 
 /***/ }),
@@ -217,16 +218,14 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 function validateInput(e) {
-    console.log(e);
+    // only permit a single number as input 
+    if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.data)) {
+        e.target.value = '';
+    } else if (e.data.length === 1) {
+        e.target.value = e.data;
+    }
 
-    // TODO 
-    // only permit numbers as input 
-    // if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key) && e.target.keyCode !== 8){
-    //     console.log(e);
-
-    // e.target.value = '';
-    // }
-
+    // TODO: Validate against all other numbers in row & column 
     // validate against row 
     // validate against column 
 }
