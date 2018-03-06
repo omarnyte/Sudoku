@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log('in sudoku');\n\n\n//# sourceURL=webpack:///./assets/javascript/sudoku.js?");
+eval("\n\n//# sourceURL=webpack:///./assets/javascript/sudoku.js?");
 
 /***/ })
 
