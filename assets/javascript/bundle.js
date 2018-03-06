@@ -91,13 +91,86 @@ var _tile2 = _interopRequireDefault(_tile);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function setupBoard(board) {
-    board.forEach(function (num, idx) {
-        (0, _tile2.default)(num);
+exports.checkBoard = function () {
+    console.log('checking the board');
+};
+
+// function setupBoard (board) {
+//     board.forEach((num, idx) => {
+//         populateTile(num, idx);
+//     })
+// }
+
+function createBoards() {
+    var diff = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'easy';
+
+    var diffMap = {
+        'easy': 45,
+        'medium': 35,
+        'hard': 25
+    };
+
+    var solvedBoard = [];
+
+    for (var i = 0; i < 81; i++) {
+        solvedBoard.push(0);
+    }
+
+    var j = diffMap[diff];
+    solvedBoard.forEach(function (num, idx) {
+        // Math.ceil(Math.random() * 10)
+        // check against row 
+        var rowIndex = Math.floor(idx / 9);
+        var rowStart = rowIndex * 9;
+        var rowEnd = rowStart + 9;
+        for (var _i = rowStart; _i < rowEnd; _i++) {
+            var placed = false;
+        }
+
+        // check against column 
     });
 }
 
+function setupBoard() {
+    createBoards();
+    // const [unsolvedBoard, solvedBoard] = createBoards();
+}
 exports.default = setupBoard;
+
+/***/ }),
+
+/***/ "./assets/javascript/buttons.js":
+/*!**************************************!*\
+  !*** ./assets/javascript/buttons.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _board = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
+
+var _board2 = _interopRequireDefault(_board);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function buttons() {
+    var checkButton = document.querySelector('.check');
+    // checkButton.addEventListener('click', checkBoard);
+
+    var submitButton = document.querySelector('.submit');
+    // checkButton.addEventListener('click', () => console.log('submit'))
+
+    var giveUpButton = document.querySelector('.give-up');
+    // checkButton.addEventListener('click', () => console.log('give up'))
+}
+
+exports.default = buttons;
 
 /***/ }),
 
@@ -115,11 +188,18 @@ var _board = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
 
 var _board2 = _interopRequireDefault(_board);
 
+var _buttons = __webpack_require__(/*! ./buttons */ "./assets/javascript/buttons.js");
+
+var _buttons2 = _interopRequireDefault(_buttons);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
 
-(0, _board2.default)(unsolvedBoard);
+var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4,, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
+
+(0, _board2.default)();
+(0, _buttons2.default)();
 
 /***/ }),
 
@@ -136,21 +216,41 @@ var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9,
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function populateTile(num) {
+function validateInput(e) {
+    console.log(e);
+
+    // TODO 
+    // only permit numbers as input 
+    // if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key) && e.target.keyCode !== 8){
+    //     console.log(e);
+
+    // e.target.value = '';
+    // }
+
+    // validate against row 
+    // validate against column 
+}
+
+function populateTile(num, idx) {
     var boardDiv = document.querySelector('.board');
     var tileDiv = document.createElement('div');
     tileDiv.className = 'tile-div';
+    tileDiv.dataset.index = idx;
 
     var tile = void 0;
     if (num === 0) {
         tile = document.createElement('input');
+        tile.className = 'tile input';
     } else {
         tile = document.createElement('span');
         tile.textContent = num;
+        tile.className = 'tile span';
     }
 
     boardDiv.appendChild(tileDiv);
     tileDiv.appendChild(tile);
+
+    tile.addEventListener('input', validateInput);
 }
 
 exports.default = populateTile;

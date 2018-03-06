@@ -31,10 +31,8 @@ button {
     text-align: center;
     width: 90%;
     height: 90%;
-}
 
-.tile.input:focus {
-    border-color: goldenrod;
+    color: dodgerblue;
 }
 
 .tile.span {
