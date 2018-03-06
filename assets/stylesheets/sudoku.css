@@ -1,16 +1,61 @@
-.board {
-    width: 205px; 
 
+.board {
+    width: 570px; 
+    
     display: flex;
     flex-wrap: wrap;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    border: 1px solid red; 
+}
+
+.buttons {
+    width: 570px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.tile {
+    font-size: 25px;
+}
+
+.tile.input {
+    text-align: center;
+    width: 90%;
+    height: 90%;
+}
+
+.tile.input:focus {
+    border-color: goldenrod;
+}
+
+.tile.span {
+    font-weight: bold; 
+}
+
 .tile-div {
-    width: 20px;
-    height: 20px;
-    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    border: 1px solid gray;
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }
 
 .tile-div:nth-child(3n) {
     border-right: 3px solid black;
+}
+
+.tile-div:nth-child(n+19):nth-child(-n+27), 
+.tile-div:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 3px solid black;
 }
