@@ -1,0 +1,16 @@
+.board {
+    width: 205px; 
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile-div {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.tile-div:nth-child(3n) {
+    border-right: 3px solid black;
+}
