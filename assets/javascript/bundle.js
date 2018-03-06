@@ -71,15 +71,91 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/javascript/board.js":
+/*!************************************!*\
+  !*** ./assets/javascript/board.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _tile = __webpack_require__(/*! ./tile */ "./assets/javascript/tile.js");
+
+var _tile2 = _interopRequireDefault(_tile);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function setupBoard(board) {
+    board.forEach(function (num, idx) {
+        (0, _tile2.default)(num);
+    });
+}
+
+exports.default = setupBoard;
+
+/***/ }),
+
 /***/ "./assets/javascript/sudoku.js":
 /*!*************************************!*\
   !*** ./assets/javascript/sudoku.js ***!
   \*************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("\n\n//# sourceURL=webpack:///./assets/javascript/sudoku.js?");
+"use strict";
+
+
+var _board = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
+
+var _board2 = _interopRequireDefault(_board);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
+
+(0, _board2.default)(unsolvedBoard);
+
+/***/ }),
+
+/***/ "./assets/javascript/tile.js":
+/*!***********************************!*\
+  !*** ./assets/javascript/tile.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function populateTile(num) {
+    var boardDiv = document.querySelector('.board');
+    var tileDiv = document.createElement('div');
+    tileDiv.className = 'tile-div';
+
+    var tile = void 0;
+    if (num === 0) {
+        tile = document.createElement('input');
+    } else {
+        tile = document.createElement('span');
+        tile.textContent = num;
+    }
+
+    boardDiv.appendChild(tileDiv);
+    tileDiv.appendChild(tile);
+}
+
+exports.default = populateTile;
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=bundle.js.map
