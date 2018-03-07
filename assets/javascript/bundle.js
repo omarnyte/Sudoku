@@ -110,15 +110,115 @@ var Board = function () {
 
     _createClass(Board, [{
         key: 'render',
-        value: function render(numbers) {
-            numbers.forEach(function (num, idx) {
+        value: function render() {
+            // TODO clear any previous boards 
+
+            // createRandomBoard();
+
+            unsolvedBoard.forEach(function (num, idx) {
                 (0, _tile2.default)(num, idx);
             });
         }
     }, {
-        key: 'checkSubmission',
-        value: function checkSubmission(e) {
-            console.log('in check submission');
+        key: 'createRandomBoard',
+        value: function createRandomBoard() {
+            var diff = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'easy';
+
+            var diffMap = {
+                'easy': 45,
+                'medium': 35,
+                'hard': 25
+            };
+
+            var solvedBoard = [];
+
+            for (var i = 0; i < 81; i++) {
+                solvedBoard.push(0);
+            }
+
+            // let j = diffMap[diff];  
+            // solvedBoard.forEach((num, idx) => {
+            //     // Math.ceil(Math.random() * 10)
+            //     // check against row 
+            //     const rowIndex = Math.floor(idx / 9);
+            //     const rowStart = rowIndex * 9;
+            //     const rowEnd = rowStart + 9;
+            //     for (let i = rowStart; i < rowEnd; i++) {
+            //         let placed = false; 
+            //     }
+
+            // numbers.forEach((num, idx) => {
+            //     populateTile(num, idx);
+            // });
+
+
+            // check against column 
+            // })
+        }
+    }, {
+        key: 'checkRow',
+        value: function checkRow(tile, tiles) {
+            var tileRowNum = tile.dataset.row;
+            var rowTiles = document.querySelectorAll('[data-row="' + tileRowNum + '"]');
+            // console.log('tileRowNum', tileRowNum);
+            // console.log('rowTiles', rowTiles);
+
+            rowTiles.forEach(function (rowTile) {
+                // console.log(rowTile.value || rowTile.textContent);
+                // console.log('tile index', tile.dataset.index);
+                // console.log('rowTile index', rowTile.dataset.index);
+                var rowTileNum = rowTile.textContent ? rowTile.textContent : rowTile.value;
+
+                // don't check a tile against itself   
+                if (tile.dataset.index === rowTile.dataset.index) {
+                    return;
+                } else if (rowTile.value === '') {
+                    // don't check against an empty input 
+                    return;
+                } else {
+                    if (tile.value === rowTileNum) {
+                        tile.parentNode.classList.add('wrong');
+                    }
+                }
+            });
+        }
+
+        // button methods 
+
+    }, {
+        key: 'checkProgress',
+        value: function checkProgress(e) {
+            console.log('checking progress');
+        }
+    }, {
+        key: 'checkProgress',
+        value: function checkProgress(e) {
+            var tiles = document.querySelectorAll('.tile');
+
+            tiles.forEach(function (tile, idx) {
+                // only check input (not span) tiles 
+                if (tile.tagName === 'SPAN') {
+                    return;
+                } else if (tile.value === '') {
+                    return;
+                } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
+                    tile.parentNode.classList.add('wrong');
+                }
+
+                // this.checkRow(tile, tiles);
+                // checkColum();
+                // checkSubgrid());
+            });
+        }
+    }, {
+        key: 'solve',
+        value: function solve(e) {
+            console.log('solving');
+        }
+    }, {
+        key: 'reset',
+        value: function reset(e) {
+            console.log('resetting');
         }
     }]);
 
@@ -165,13 +265,6 @@ var Board = function () {
 
 // } 
 
-// function setupBoard (numbers) {
-//     numbers.forEach((num, idx) => {
-//         populateTile(num, idx)
-//     })
-// }
-// export default setupBoard;
-
 
 exports.default = Board;
 
@@ -197,28 +290,21 @@ var _board2 = _interopRequireDefault(_board);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function buttons(board) {
+function enableButtons(board) {
     var checkButton = document.querySelector('.check');
     checkButton.addEventListener('click', board.checkProgress);
 
     var submitButton = document.querySelector('.submit');
-    submitButton.addEventListener('click', board.checkSubmission);
+    submitButton.addEventListener('click', board.checkSubmission.bind(board));
 
     var giveUpButton = document.querySelector('.give-up');
     giveUpButton.addEventListener('click', board.solve);
 
     var resetButton = document.querySelector('.reset');
-    giveUpButton.addEventListener('click', board.reset);
+    resetButton.addEventListener('click', board.reset);
 }
 
-exports.default = buttons;
-
-// const checkButton = document.querySelector('.check');
-// checkButton.addEventListener('click', () => {
-//     const tiles = document.querySelectorAll('tile');
-//     tiles.forEach(tile => {
-//     });
-// });
+exports.default = enableButtons;
 
 /***/ }),
 
@@ -236,10 +322,6 @@ var _board = __webpack_require__(/*! ./board.js */ "./assets/javascript/board.js
 
 var _board2 = _interopRequireDefault(_board);
 
-var _board3 = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
-
-var _board4 = _interopRequireDefault(_board3);
-
 var _buttons = __webpack_require__(/*! ./buttons */ "./assets/javascript/buttons.js");
 
 var _buttons2 = _interopRequireDefault(_buttons);
@@ -248,42 +330,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var board = new _board2.default();
 (0, _buttons2.default)(board);
-
-// function checkRow(tile, idx, tiles) {
-//     const rowIdx = Math.floor(idx / 8);
-//     const rowStart = rowIdx * 9;
-//     const rowEnd = rowStart + 8;
-
-//     for (let i = rowStart; i <= rowEnd; i++) {                
-//         if (tile.value === tiles[i].textContent || tiles[i].value) {
-//             console.log(tiles[i].value);
-//             tile.parentNode.classList.add('wrong');
-//         }
-//     }
-// }
-
-// const submitButton = document.querySelector('.submit');
-// // TODO move to separate file 
-// submitButton.addEventListener('click', () => {
-//     const tiles = document.querySelectorAll('.tiles');
-//     tiles.forEach((tile, idx)=> {
-//         // only check input (not given) tiles 
-//         if (tile.tagName === 'SPAN') {
-//             return ; 
-//         } 
-
-//         checkRow(tile, idx, tiles);
-
-//     });
-
-
-// });
-
-// const submitButton = document.querySelector('.submit');
-// checkButton.addEventListener('click', () => console.log('submit'))
-
-// const giveUpButton = document.querySelector('.give-up');
-// checkButton.addEventListener('click', () => console.log('give up'))
 
 /***/ }),
 
@@ -313,11 +359,18 @@ function validateInput(e) {
     // validate against column 
 }
 
+function determineSubgrid(col, row) {
+    // formula to determine subgrid found at: https://medium.com/@0xsven/sudoku-validation-with-javascript-1297712093bf
+    var gridRow = Math.floor(row / 3);
+    var gridCol = Math.floor(col / 3);
+    var subGrid = gridRow * 3 + gridCol;
+    return subGrid;
+}
+
 function populateTile(num, idx) {
     var boardDiv = document.querySelector('.board');
     var tileDiv = document.createElement('div');
     tileDiv.className = 'tile-div';
-    tileDiv.dataset.index = idx;
 
     var tile = void 0;
     if (num === 0) {
@@ -328,6 +381,14 @@ function populateTile(num, idx) {
         tile.textContent = num;
         tile.className = 'tile span';
     }
+
+    // add index, column, and row as data attributes 
+    var col = idx % 9;
+    var row = Math.floor(idx / 9);
+    tile.dataset.index = idx;
+    tile.dataset.column = col;
+    tile.dataset.row = row;
+    tile.dataset.subGrid = determineSubgrid(col, row);
 
     boardDiv.appendChild(tileDiv);
     tileDiv.appendChild(tile);

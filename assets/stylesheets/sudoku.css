@@ -62,3 +62,7 @@ button {
 .tile-div:nth-child(n+46):nth-child(-n+54) {
     border-bottom: 3px solid black;
 }
+
+.wrong {
+    border-color: red;
+}

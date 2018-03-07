@@ -12,6 +12,7 @@ function validateInput(e) {
 }
 
 function determineSubgrid(col, row) {
+    // formula to determine subgrid found at: https://medium.com/@0xsven/sudoku-validation-with-javascript-1297712093bf
     const gridRow = Math.floor(row / 3);
     const gridCol = Math.floor(col / 3);
     const subGrid= gridRow * 3 + gridCol;
@@ -34,15 +35,16 @@ function populateTile(num, idx) {
     }
 
     // add index, column, and row as data attributes 
+    const col = idx % 9;
+    const row = Math.floor(idx / 9);
     tile.dataset.index = idx;
-    tile.dataset.column = idx % 9;
-    tile.dataset.row = Math.floor(idx / 9);
-
+    tile.dataset.column = col;
+    tile.dataset.row = row;
     tile.dataset.subGrid = determineSubgrid(col, row);
 
     boardDiv.appendChild(tileDiv);
     tileDiv.appendChild(tile); 
-    
+
     tile.addEventListener('input', validateInput);
 }
 

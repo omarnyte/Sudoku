@@ -26,17 +26,112 @@ const solvedBoard = [
 
 export default class Board { 
     constructor(numbers = unsolvedBoard) {
-        this.render(numbers);
+        this.render(numbers);        
     }
 
-    render (numbers) {
-        numbers.forEach((num, idx) => {
+    render() {
+        // TODO clear any previous boards 
+        
+        // createRandomBoard();
+
+        unsolvedBoard.forEach((num, idx) => {
             populateTile(num, idx);
         });
     }
 
-    checkSubmission(e) {
-        console.log('in check submission');
+    createRandomBoard(diff = 'easy') {
+        const diffMap = {
+            'easy': 45,
+            'medium': 35,
+            'hard': 25
+        }
+
+        let solvedBoard = []; 
+
+        for (let i = 0; i < 81; i++) {
+            solvedBoard.push(0);
+        }
+
+        // let j = diffMap[diff];  
+        // solvedBoard.forEach((num, idx) => {
+        //     // Math.ceil(Math.random() * 10)
+        //     // check against row 
+        //     const rowIndex = Math.floor(idx / 9);
+        //     const rowStart = rowIndex * 9;
+        //     const rowEnd = rowStart + 9;
+        //     for (let i = rowStart; i < rowEnd; i++) {
+        //         let placed = false; 
+        //     }
+
+        // numbers.forEach((num, idx) => {
+        //     populateTile(num, idx);
+        // });
+
+
+
+            // check against column 
+        // })
+
+    } 
+
+    checkRow(tile, tiles) {
+        const tileRowNum = tile.dataset.row;
+        const rowTiles = document.querySelectorAll(`[data-row="${tileRowNum}"]`);
+        // console.log('tileRowNum', tileRowNum);
+        // console.log('rowTiles', rowTiles);
+        
+        rowTiles.forEach(rowTile => {
+            // console.log(rowTile.value || rowTile.textContent);
+            // console.log('tile index', tile.dataset.index);
+            // console.log('rowTile index', rowTile.dataset.index);
+            const rowTileNum = rowTile.textContent ? rowTile.textContent : rowTile.value;
+
+            // don't check a tile against itself   
+            if (tile.dataset.index === rowTile.dataset.index) {
+                return;
+             } else if (rowTile.value === '') {
+                // don't check against an empty input 
+                return;
+            } else {
+                if (tile.value === rowTileNum) {
+                    tile.parentNode.classList.add('wrong');
+                }
+            }
+        });
+    }
+
+    // button methods 
+    checkProgress(e) {
+        console.log('checking progress');
+    }
+    
+    checkProgress(e) {
+        const tiles = document.querySelectorAll('.tile');
+
+        tiles.forEach((tile, idx) => {
+            // only check input (not span) tiles 
+            if (tile.tagName === 'SPAN') {
+                return ; 
+            } else if (tile.value === '') {
+                return;
+            } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
+                tile.parentNode.classList.add('wrong');
+            }
+
+            
+
+            // this.checkRow(tile, tiles);
+            // checkColum();
+            // checkSubgrid());
+        });
+    }
+
+    solve(e) {
+        console.log('solving');
+    }
+
+    reset(e) {
+        console.log('resetting');
     }
 
 
@@ -82,13 +177,6 @@ export default class Board {
 //     })
 
 // } 
-
-// function setupBoard (numbers) {
-//     numbers.forEach((num, idx) => {
-//         populateTile(num, idx)
-//     })
-// }
-// export default setupBoard;
 
 
 
