@@ -100,30 +100,28 @@ export default class Board {
         });
     }
 
-    // button methods 
-    checkProgress(e) {
-        console.log('checking progress');
-    }
-    
+    // button methods     
     checkProgress(e) {
         const tiles = document.querySelectorAll('.tile');
-
+        let solved = true; 
         tiles.forEach((tile, idx) => {
             // only check input (not span) tiles 
             if (tile.tagName === 'SPAN') {
                 return ; 
             } else if (tile.value === '') {
-                return;
+                solved = false;
             } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
                 tile.parentNode.classList.add('wrong');
+                solved = false;
             }
-
-            
-
             // this.checkRow(tile, tiles);
             // checkColum();
             // checkSubgrid());
         });
+
+        if (solved) {
+            window.alert('Congratulations! You solved the puzzle!');
+        }
     }
 
     solve(e) {

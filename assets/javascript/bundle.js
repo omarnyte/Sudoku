@@ -183,32 +183,31 @@ var Board = function () {
             });
         }
 
-        // button methods 
+        // button methods     
 
-    }, {
-        key: 'checkProgress',
-        value: function checkProgress(e) {
-            console.log('checking progress');
-        }
     }, {
         key: 'checkProgress',
         value: function checkProgress(e) {
             var tiles = document.querySelectorAll('.tile');
-
+            var solved = true;
             tiles.forEach(function (tile, idx) {
                 // only check input (not span) tiles 
                 if (tile.tagName === 'SPAN') {
                     return;
                 } else if (tile.value === '') {
-                    return;
+                    solved = false;
                 } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
                     tile.parentNode.classList.add('wrong');
+                    solved = false;
                 }
-
                 // this.checkRow(tile, tiles);
                 // checkColum();
                 // checkSubgrid());
             });
+
+            if (solved) {
+                window.alert('Congratulations! You solved the puzzle!');
+            }
         }
     }, {
         key: 'solve',
@@ -291,11 +290,8 @@ var _board2 = _interopRequireDefault(_board);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function enableButtons(board) {
-    var checkButton = document.querySelector('.check');
-    checkButton.addEventListener('click', board.checkProgress);
-
-    var submitButton = document.querySelector('.submit');
-    submitButton.addEventListener('click', board.checkSubmission.bind(board));
+    var submitButton = document.querySelector('.check');
+    submitButton.addEventListener('click', board.checkProgress.bind(board));
 
     var giveUpButton = document.querySelector('.give-up');
     giveUpButton.addEventListener('click', board.solve);
