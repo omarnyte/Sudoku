@@ -85,15 +85,49 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _tile = __webpack_require__(/*! ./tile */ "./assets/javascript/tile.js");
 
 var _tile2 = _interopRequireDefault(_tile);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.checkBoard = function () {
-    console.log('checking the board');
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
+
+var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4, 8, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
+
+var Board = function () {
+    function Board() {
+        var numbers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : unsolvedBoard;
+
+        _classCallCheck(this, Board);
+
+        this.render(numbers);
+    }
+
+    _createClass(Board, [{
+        key: 'render',
+        value: function render(numbers) {
+            numbers.forEach(function (num, idx) {
+                (0, _tile2.default)(num, idx);
+            });
+        }
+    }, {
+        key: 'checkSubmission',
+        value: function checkSubmission(e) {
+            console.log('in check submission');
+        }
+    }]);
+
+    return Board;
+}();
+
+// exports.checkBoard = () => {
+// console.log('checking the board');
+// }
 
 // function setupBoard (board) {
 //     board.forEach((num, idx) => {
@@ -131,12 +165,15 @@ exports.checkBoard = function () {
 
 // } 
 
-function setupBoard(numbers) {
-    numbers.forEach(function (num, idx) {
-        (0, _tile2.default)(num, idx);
-    });
-}
-exports.default = setupBoard;
+// function setupBoard (numbers) {
+//     numbers.forEach((num, idx) => {
+//         populateTile(num, idx)
+//     })
+// }
+// export default setupBoard;
+
+
+exports.default = Board;
 
 /***/ }),
 
@@ -160,18 +197,28 @@ var _board2 = _interopRequireDefault(_board);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function buttons() {
+function buttons(board) {
     var checkButton = document.querySelector('.check');
-    // checkButton.addEventListener('click', checkBoard);
+    checkButton.addEventListener('click', board.checkProgress);
 
     var submitButton = document.querySelector('.submit');
-    // checkButton.addEventListener('click', () => console.log('submit'))
+    submitButton.addEventListener('click', board.checkSubmission);
 
     var giveUpButton = document.querySelector('.give-up');
-    // checkButton.addEventListener('click', () => console.log('give up'))
+    giveUpButton.addEventListener('click', board.solve);
+
+    var resetButton = document.querySelector('.reset');
+    giveUpButton.addEventListener('click', board.reset);
 }
 
 exports.default = buttons;
+
+// const checkButton = document.querySelector('.check');
+// checkButton.addEventListener('click', () => {
+//     const tiles = document.querySelectorAll('tile');
+//     tiles.forEach(tile => {
+//     });
+// });
 
 /***/ }),
 
@@ -185,9 +232,13 @@ exports.default = buttons;
 "use strict";
 
 
-var _board = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
+var _board = __webpack_require__(/*! ./board.js */ "./assets/javascript/board.js");
 
 var _board2 = _interopRequireDefault(_board);
+
+var _board3 = __webpack_require__(/*! ./board */ "./assets/javascript/board.js");
+
+var _board4 = _interopRequireDefault(_board3);
 
 var _buttons = __webpack_require__(/*! ./buttons */ "./assets/javascript/buttons.js");
 
@@ -195,12 +246,44 @@ var _buttons2 = _interopRequireDefault(_buttons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
+var board = new _board2.default();
+(0, _buttons2.default)(board);
 
-var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4,, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
+// function checkRow(tile, idx, tiles) {
+//     const rowIdx = Math.floor(idx / 8);
+//     const rowStart = rowIdx * 9;
+//     const rowEnd = rowStart + 8;
 
-(0, _board2.default)(unsolvedBoard);
-(0, _buttons2.default)();
+//     for (let i = rowStart; i <= rowEnd; i++) {                
+//         if (tile.value === tiles[i].textContent || tiles[i].value) {
+//             console.log(tiles[i].value);
+//             tile.parentNode.classList.add('wrong');
+//         }
+//     }
+// }
+
+// const submitButton = document.querySelector('.submit');
+// // TODO move to separate file 
+// submitButton.addEventListener('click', () => {
+//     const tiles = document.querySelectorAll('.tiles');
+//     tiles.forEach((tile, idx)=> {
+//         // only check input (not given) tiles 
+//         if (tile.tagName === 'SPAN') {
+//             return ; 
+//         } 
+
+//         checkRow(tile, idx, tiles);
+
+//     });
+
+
+// });
+
+// const submitButton = document.querySelector('.submit');
+// checkButton.addEventListener('click', () => console.log('submit'))
+
+// const giveUpButton = document.querySelector('.give-up');
+// checkButton.addEventListener('click', () => console.log('give up'))
 
 /***/ }),
 

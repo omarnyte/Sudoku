@@ -33,6 +33,7 @@ button {
     height: 90%;
 
     color: dodgerblue;
+    caret-color: black;
 }
 
 .tile.span {
@@ -47,6 +48,10 @@ button {
     display: flex;
     justify-content: center;
     align-items: center; 
+}
+
+.tile-div.wrong {
+    border-color: red;
 }
 
 .tile-div:nth-child(3n) {
