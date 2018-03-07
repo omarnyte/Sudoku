@@ -1,57 +1,75 @@
 import populateTile from './tile';
 
-const unsolvedBoard = [
-    5, 3, 0, 0, 7, 0, 0, 0, 0,
-    6, 0, 0, 1, 9, 5, 0, 0, 0,
-    0, 9, 8, 0, 0, 0, 0, 6, 0,
-    8, 0, 0, 0, 6, 0, 0, 0, 3,
-    4, 0, 0, 8, 0, 3, 0, 0, 1,
-    7, 0, 0, 0, 2, 0, 0, 0, 6,
-    0, 6, 0, 0, 0, 0, 2, 8, 0,
-    0, 0, 0, 4, 1, 9, 0, 0, 5,
-    0, 0, 0, 0, 8, 0, 0, 7, 9
-]
+// const unsolvedBoard = [
+//     5, 3, 0, 0, 7, 0, 0, 0, 0,
+//     6, 0, 0, 1, 9, 5, 0, 0, 0,
+//     0, 9, 8, 0, 0, 0, 0, 6, 0,
+//     8, 0, 0, 0, 6, 0, 0, 0, 3,
+//     4, 0, 0, 8, 0, 3, 0, 0, 1,
+//     7, 0, 0, 0, 2, 0, 0, 0, 6,
+//     0, 6, 0, 0, 0, 0, 2, 8, 0,
+//     0, 0, 0, 4, 1, 9, 0, 0, 5,
+//     0, 0, 0, 0, 8, 0, 0, 7, 9
+// ]
 
-const solvedBoard = [
-    5, 3, 4, 6, 7, 8, 9, 1, 2,
-    6, 7, 2, 1, 9, 5, 3, 4, 8,
-    1, 9, 8, 3, 4, 2, 5, 6, 7,
-    8, 5, 9, 7, 6, 1, 4, 2, 3,
-    4, 2, 6, 8, 5, 3, 7, 9, 1,
-    7, 1, 3, 9, 2, 4, 8, 5, 6,
-    9, 6, 1, 5, 3, 7, 2, 8, 4,
-    2, 8, 7, 4, 1, 9, 6, 3, 5,
-    3, 4, 5, 2, 8, 6, 1, 7, 9
-]
+// const solvedBoard = [
+//     5, 3, 4, 6, 7, 8, 9, 1, 2,
+//     6, 7, 2, 1, 9, 5, 3, 4, 8,
+//     1, 9, 8, 3, 4, 2, 5, 6, 7,
+//     8, 5, 9, 7, 6, 1, 4, 2, 3,
+//     4, 2, 6, 8, 5, 3, 7, 9, 1,
+//     7, 1, 3, 9, 2, 4, 8, 5, 6,
+//     9, 6, 1, 5, 3, 7, 2, 8, 4,
+//     2, 8, 7, 4, 1, 9, 6, 3, 5,
+//     3, 4, 5, 2, 8, 6, 1, 7, 9
+// ]
 
 export default class Board { 
-    constructor(numbers = unsolvedBoard) {
-        this.render(numbers);        
+    constructor() {
+        const solvedBoard = this.createSolvedBoard();
+        // const unsolvedBoard = unsolvedBoard()        
+        // this.render(unsolvedBoard);
+        this.render(solvedBoard);
     }
 
-    render() {
+    render(unsolvedBoard) {
         // TODO clear any previous boards 
-        
-        // createRandomBoard();
 
         unsolvedBoard.forEach((num, idx) => {
             populateTile(num, idx);
         });
     }
 
-    createRandomBoard(diff = 'easy') {
+    createSolvedBoard(diff = 'easy') {
+        // number of tiles to be given in puzzle
         const diffMap = {
             'easy': 45,
             'medium': 35,
             'hard': 25
         }
 
-        let solvedBoard = []; 
+        let solvedBoard = new Array(81).fill(0); 
+        solvedBoard.forEach((zero, idx) => {
+            let assigned = false;
+            while (!assigned) {
+                const rand = Math.ceil(Math.random() * 9);
+                if (validateRow()) {
+                    solvedBoard[idx] = rand;
+                    assigned = true;
+                }
+            }
+        })
 
-        for (let i = 0; i < 81; i++) {
-            solvedBoard.push(0);
-        }
+        console.log(solvedBoard);
 
+        return solvedBoard;        
+    } 
+
+    validateRow() {
+        
+    }
+    
+    unsolveBoard(solvedBoard) {
         // let j = diffMap[diff];  
         // solvedBoard.forEach((num, idx) => {
         //     // Math.ceil(Math.random() * 10)
@@ -62,17 +80,17 @@ export default class Board {
         //     for (let i = rowStart; i < rowEnd; i++) {
         //         let placed = false; 
         //     }
-
+    
         // numbers.forEach((num, idx) => {
         //     populateTile(num, idx);
         // });
-
-
-
+    
+    
+    
             // check against column 
         // })
 
-    } 
+    }
 
     checkRow(tile, tiles) {
         const tileRowNum = tile.dataset.row;
@@ -114,9 +132,6 @@ export default class Board {
                 tile.parentNode.classList.add('wrong');
                 solved = false;
             }
-            // this.checkRow(tile, tiles);
-            // checkColum();
-            // checkSubgrid());
         });
 
         if (solved) {
