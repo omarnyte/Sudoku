@@ -48,25 +48,34 @@ export default class Board {
             'hard': 25
         }
 
-        let solvedBoard = new Array(81).fill(0); 
-        solvedBoard.forEach((zero, idx) => {
+        let board = new Array(81).fill(0); 
+        board.forEach((zero, idx) => {
             let assigned = false;
             while (!assigned) {
                 const rand = Math.ceil(Math.random() * 9);
-                if (validateRow()) {
-                    solvedBoard[idx] = rand;
+                if (this.validateRow(rand, idx, board)) {
+                    board[idx] = rand;
                     assigned = true;
                 }
             }
         })
 
-        console.log(solvedBoard);
+        console.log(board);
 
-        return solvedBoard;        
+        return board;        
     } 
 
-    validateRow() {
-        
+    validateRow(rand, idx, board) {
+        const randRowIndex = Math.floor(idx / 9);
+        const rowStart = randRowIndex * 9;
+        const rowEnd = rowStart + 9;
+        for (let i = rowStart; i < rowEnd; i++) {
+            if (rand === board[i]) {
+                return false; 
+            }
+        }
+
+        return true; 
     }
     
     unsolveBoard(solvedBoard) {
@@ -190,6 +199,5 @@ export default class Board {
 //     })
 
 // } 
-
 
 

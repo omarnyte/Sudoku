@@ -95,47 +95,96 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
+// const unsolvedBoard = [
+//     5, 3, 0, 0, 7, 0, 0, 0, 0,
+//     6, 0, 0, 1, 9, 5, 0, 0, 0,
+//     0, 9, 8, 0, 0, 0, 0, 6, 0,
+//     8, 0, 0, 0, 6, 0, 0, 0, 3,
+//     4, 0, 0, 8, 0, 3, 0, 0, 1,
+//     7, 0, 0, 0, 2, 0, 0, 0, 6,
+//     0, 6, 0, 0, 0, 0, 2, 8, 0,
+//     0, 0, 0, 4, 1, 9, 0, 0, 5,
+//     0, 0, 0, 0, 8, 0, 0, 7, 9
+// ]
 
-var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4, 8, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
+// const solvedBoard = [
+//     5, 3, 4, 6, 7, 8, 9, 1, 2,
+//     6, 7, 2, 1, 9, 5, 3, 4, 8,
+//     1, 9, 8, 3, 4, 2, 5, 6, 7,
+//     8, 5, 9, 7, 6, 1, 4, 2, 3,
+//     4, 2, 6, 8, 5, 3, 7, 9, 1,
+//     7, 1, 3, 9, 2, 4, 8, 5, 6,
+//     9, 6, 1, 5, 3, 7, 2, 8, 4,
+//     2, 8, 7, 4, 1, 9, 6, 3, 5,
+//     3, 4, 5, 2, 8, 6, 1, 7, 9
+// ]
 
 var Board = function () {
     function Board() {
-        var numbers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : unsolvedBoard;
-
         _classCallCheck(this, Board);
 
-        this.render(numbers);
+        var solvedBoard = this.createSolvedBoard();
+        // const unsolvedBoard = unsolvedBoard()        
+        // this.render(unsolvedBoard);
+        this.render(solvedBoard);
     }
 
     _createClass(Board, [{
         key: 'render',
-        value: function render() {
+        value: function render(unsolvedBoard) {
             // TODO clear any previous boards 
-
-            // createRandomBoard();
 
             unsolvedBoard.forEach(function (num, idx) {
                 (0, _tile2.default)(num, idx);
             });
         }
     }, {
-        key: 'createRandomBoard',
-        value: function createRandomBoard() {
+        key: 'createSolvedBoard',
+        value: function createSolvedBoard() {
+            var _this = this;
+
             var diff = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'easy';
 
+            // number of tiles to be given in puzzle
             var diffMap = {
                 'easy': 45,
                 'medium': 35,
                 'hard': 25
             };
 
-            var solvedBoard = [];
+            var board = new Array(81).fill(0);
+            board.forEach(function (zero, idx) {
+                var assigned = false;
+                while (!assigned) {
+                    var rand = Math.ceil(Math.random() * 9);
+                    if (_this.validateRow(rand, idx, board)) {
+                        board[idx] = rand;
+                        assigned = true;
+                    }
+                }
+            });
 
-            for (var i = 0; i < 81; i++) {
-                solvedBoard.push(0);
+            console.log(board);
+
+            return board;
+        }
+    }, {
+        key: 'validateRow',
+        value: function validateRow(rand, idx, board) {
+            var randRowIndex = Math.floor(idx / 9);
+            var rowStart = randRowIndex * 9;
+            var rowEnd = rowStart + 9;
+            for (var i = rowStart; i < rowEnd; i++) {
+                if (rand === board[i]) {
+                    return false;
+                }
             }
 
+            return true;
+        }
+    }, {
+        key: 'unsolveBoard',
+        value: function unsolveBoard(solvedBoard) {
             // let j = diffMap[diff];  
             // solvedBoard.forEach((num, idx) => {
             //     // Math.ceil(Math.random() * 10)
@@ -154,6 +203,7 @@ var Board = function () {
 
             // check against column 
             // })
+
         }
     }, {
         key: 'checkRow',
@@ -200,9 +250,6 @@ var Board = function () {
                     tile.parentNode.classList.add('wrong');
                     solved = false;
                 }
-                // this.checkRow(tile, tiles);
-                // checkColum();
-                // checkSubgrid());
             });
 
             if (solved) {
