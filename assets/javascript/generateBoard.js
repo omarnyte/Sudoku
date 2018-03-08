@@ -11,7 +11,7 @@ function createSolvedBoard(diff = 'easy') {
         let assigned = false;
         while (!assigned) {
             const rand = Math.ceil(Math.random() * 9);
-            if (validateRow(rand, idx, board)) {
+            if (validateColumn(rand, idx, board) && validateRow(rand, idx, board) && validateSubgrid(rand, idx, board)) {
                 board[idx] = rand;
                 assigned = true;
             }
@@ -53,17 +53,23 @@ function validateSubgrid(rand, idx, board) {
     const randColIndex = idx % 9;
     const randRowIndex = Math.floor(idx / 9);
     const randSubgrid = determineSubgrid(randColIndex, randRowIndex);
-
+    
+    let solved = true; 
     board.forEach((tile, tileIdx) => {
         const tileColIndex = tileIdx % 9;
         const tileRowIndex = Math.floor(tileIdx / 9);
         const tileSubgrid = determineSubgrid(tileColIndex, tileRowIndex);
-
+        
+        // if( randSubgrid === tileSubgrid) {
+        //     console.log(randSubgrid)
+        // }
+        
         if (randSubgrid === tileSubgrid && rand === tile && idx !== tileIdx) {
-            return false;
+            solved = false;
         }
     });
-    return true;
+    // console.log(subgrids);
+    return solved;
 }
 
 function determineSubgrid(col, row) {
