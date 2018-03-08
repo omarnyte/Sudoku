@@ -85,31 +85,57 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _tile = __webpack_require__(/*! ./tile */ "./assets/javascript/tile.js");
 
 var _tile2 = _interopRequireDefault(_tile);
 
-var _validateBoard = __webpack_require__(/*! ./validateBoard */ "./assets/javascript/validateBoard.js");
+var _generateBoard3 = __webpack_require__(/*! ./generateBoard */ "./assets/javascript/generateBoard.js");
 
-var _validateBoard2 = _interopRequireDefault(_validateBoard);
+var _generateBoard4 = _interopRequireDefault(_generateBoard3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
+// const unsolvedBoard = [
+//     5, 3, 0, 0, 7, 0, 0, 0, 0,
+//     6, 0, 0, 1, 9, 5, 0, 0, 0,
+//     0, 9, 8, 0, 0, 0, 0, 6, 0,
+//     8, 0, 0, 0, 6, 0, 0, 0, 3,
+//     4, 0, 0, 8, 0, 3, 0, 0, 1,
+//     7, 0, 0, 0, 2, 0, 0, 0, 6,
+//     0, 6, 0, 0, 0, 0, 2, 8, 0,
+//     0, 0, 0, 4, 1, 9, 0, 0, 5,
+//     0, 0, 0, 0, 8, 0, 0, 7, 9
+// ]
 
-var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4, 8, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
+// const solvedBoard = [
+//     5, 3, 4, 6, 7, 8, 9, 1, 2,
+//     6, 7, 2, 1, 9, 5, 3, 4, 8,
+//     1, 9, 8, 3, 4, 2, 5, 6, 7,
+//     8, 5, 9, 7, 6, 1, 4, 2, 3,
+//     4, 2, 6, 8, 5, 3, 7, 9, 1,
+//     7, 1, 3, 9, 2, 4, 8, 5, 6,
+//     9, 6, 1, 5, 3, 7, 2, 8, 4,
+//     2, 8, 7, 4, 1, 9, 6, 3, 5,
+//     3, 4, 5, 2, 8, 6, 1, 7, 9
+// ]
 
 var Board = function () {
     function Board() {
         _classCallCheck(this, Board);
 
-        // const unsolvedBoard = unsolvedBoard()        
-        this.render(unsolvedBoard);
-        this.solvedBoard = solvedBoard;
+        // Logic for creating a board with random board generator
+        var _generateBoard = (0, _generateBoard4.default)(),
+            _generateBoard2 = _slicedToArray(_generateBoard, 2),
+            unsolvedBoard = _generateBoard2[0],
+            solvedBoard = _generateBoard2[1];
+
+        this.render(solvedBoard);
     }
 
     _createClass(Board, [{
@@ -218,6 +244,153 @@ exports.default = enableButtons;
 
 /***/ }),
 
+/***/ "./assets/javascript/generateBoard.js":
+/*!********************************************!*\
+  !*** ./assets/javascript/generateBoard.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function createSolvedBoard() {
+    var diff = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'easy';
+
+    // number of tiles to be given in puzzle
+    var diffMap = {
+        'easy': 45,
+        'medium': 35,
+        'hard': 25
+    };
+
+    var board = new Array(81).fill(0);
+    board.forEach(function (zero, idx) {
+        var assigned = false;
+        while (!assigned) {
+            var rand = Math.ceil(Math.random() * 9);
+            if (validateRow(rand, idx, board)) {
+                board[idx] = rand;
+                assigned = true;
+            }
+        }
+    });
+
+    return board;
+}
+
+function validateColumn(rand, idx, board) {
+    var randColIndex = idx % 9;
+    for (var i = randColIndex; i < 81; i += 9) {
+        if (rand === board[i]) return false;
+    }
+    // for (let i = randColIndex * Math.floor(idx % 9); i > 0; i -= 9) {
+    //     console.log(i);
+    //     if (rand === board[i]) {
+    //         return false;
+    //     }
+    // }
+
+    return true;
+}
+
+function validateRow(rand, idx, board) {
+    var randRowIndex = Math.floor(idx / 9);
+    var randColIndex = idx % 9;
+    var rowStart = randRowIndex * 9;
+    var rowEnd = rowStart + 9;
+
+    if (randColIndex === 0) return true;
+    for (var i = idx - 1; i >= rowStart; i--) {
+        if (rand === board[i]) return false;
+    }
+    return true;
+}
+
+function validateSubgrid(rand, idx, board) {
+    var randColIndex = idx % 9;
+    var randRowIndex = Math.floor(idx / 9);
+    var randSubgrid = determineSubgrid(randColIndex, randRowIndex);
+
+    board.forEach(function (tile, tileIdx) {
+        var tileColIndex = tileIdx % 9;
+        var tileRowIndex = Math.floor(tileIdx / 9);
+        var tileSubgrid = determineSubgrid(tileColIndex, tileRowIndex);
+
+        if (randSubgrid === tileSubgrid && rand === tile && idx !== tileIdx) {
+            return false;
+        }
+    });
+    return true;
+}
+
+function determineSubgrid(col, row) {
+    // formula to determine subgrid found at: https://medium.com/@0xsven/sudoku-validation-with-javascript-1297712093bf
+    var gridRow = Math.floor(row / 3);
+    var gridCol = Math.floor(col / 3);
+    var subGrid = gridRow * 3 + gridCol;
+    return subGrid;
+}
+
+function unsolveBoard(solvedBoard) {
+    var unsolvedBoard = [];
+    // let j = diffMap[diff];  
+    // solvedBoard.forEach((num, idx) => {
+    //     // Math.ceil(Math.random() * 10)
+    //     // check against row 
+    //     const rowIndex = Math.floor(idx / 9);
+    //     const rowStart = rowIndex * 9;
+    //     const rowEnd = rowStart + 9;
+    //     for (let i = rowStart; i < rowEnd; i++) {
+    //         let placed = false; 
+    //     }
+
+    // numbers.forEach((num, idx) => {
+    //     populateTile(num, idx);
+    // });
+
+    return unsolvedBoard;
+}
+
+function checkRow(tile, tiles) {
+    var tileRowNum = tile.dataset.row;
+    var rowTiles = document.querySelectorAll('[data-row="' + tileRowNum + '"]');
+    // console.log('tileRowNum', tileRowNum);
+    // console.log('rowTiles', rowTiles);
+
+    rowTiles.forEach(function (rowTile) {
+        // console.log(rowTile.value || rowTile.textContent);
+        // console.log('tile index', tile.dataset.index);
+        // console.log('rowTile index', rowTile.dataset.index);
+        var rowTileNum = rowTile.textContent ? rowTile.textContent : rowTile.value;
+
+        // don't check a tile against itself   
+        if (tile.dataset.index === rowTile.dataset.index) {
+            return;
+        } else if (rowTile.value === '') {
+            // don't check against an empty input 
+            return;
+        } else {
+            if (tile.value === rowTileNum) {
+                tile.parentNode.classList.add('wrong');
+            }
+        }
+    });
+}
+
+function generateBoard() {
+    var solvedBoard = createSolvedBoard();
+    var unsolvedBoard = unsolveBoard(solvedBoard);
+    return [unsolvedBoard, solvedBoard];
+}
+
+exports.default = generateBoard;
+
+/***/ }),
+
 /***/ "./assets/javascript/sudoku.js":
 /*!*************************************!*\
   !*** ./assets/javascript/sudoku.js ***!
@@ -304,81 +477,6 @@ function populateTile(num, idx) {
 }
 
 exports.default = populateTile;
-
-/***/ }),
-
-/***/ "./assets/javascript/validateBoard.js":
-/*!********************************************!*\
-  !*** ./assets/javascript/validateBoard.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-function validateColumn(rand, idx, board) {
-    var randColIndex = idx % 9;
-    for (var i = randColIndex; i < 81; i += 9) {
-        if (rand === board[i]) return false;
-    }
-    // for (let i = randColIndex * Math.floor(idx % 9); i > 0; i -= 9) {
-    //     console.log(i);
-    //     if (rand === board[i]) {
-    //         return false;
-    //     }
-    // }
-
-    return true;
-}
-
-function validateRow(rand, idx, board) {
-    var randRowIndex = Math.floor(idx / 9);
-    var randColIndex = idx % 9;
-    var rowStart = randRowIndex * 9;
-    var rowEnd = rowStart + 9;
-
-    if (randColIndex === 0) return true;
-    for (var i = idx - 1; i >= rowStart; i--) {
-        if (rand === board[i]) return false;
-    }
-    return true;
-}
-
-function validateSubgrid(rand, idx, board) {
-    var _this = this;
-
-    var randColIndex = idx % 9;
-    var randRowIndex = Math.floor(idx / 9);
-    var randSubgrid = this.determineSubgrid(randColIndex, randRowIndex);
-
-    board.forEach(function (tile, tileIdx) {
-        var tileColIndex = tileIdx % 9;
-        var tileRowIndex = Math.floor(tileIdx / 9);
-        var tileSubgrid = _this.determineSubgrid(tileColIndex, tileRowIndex);
-
-        if (randSubgrid === tileSubgrid && rand === tile && idx !== tileIdx) {
-            console.log('hello');
-            return false;
-        }
-    });
-    return true;
-}
-
-function determineSubgrid(col, row) {
-    // formula to determine subgrid found at: https://medium.com/@0xsven/sudoku-validation-with-javascript-1297712093bf
-    var gridRow = Math.floor(row / 3);
-    var gridCol = Math.floor(col / 3);
-    var subGrid = gridRow * 3 + gridCol;
-    return subGrid;
-}
-
-function validateRandomNumber() {}
-
-exports.default = validateRandomNumber;
 
 /***/ })
 
