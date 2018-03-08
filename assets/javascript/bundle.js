@@ -110,12 +110,12 @@ var Board = function () {
         // Logic for creating a board with random board generator
         // const [unsolvedBoard, solvedBoard] = generateBoard();
 
-        this.render(unsolvedBoard);
+        this.setupBoard(unsolvedBoard);
     }
 
     _createClass(Board, [{
-        key: 'render',
-        value: function render(unsolvedBoard) {
+        key: 'setupBoard',
+        value: function setupBoard(unsolvedBoard) {
             // clear previous board, if any
             var board = document.querySelector('.board');
             board.innerHTML = '';
@@ -166,7 +166,7 @@ var Board = function () {
     }, {
         key: 'reset',
         value: function reset(e) {
-            this.render(unsolvedBoard);
+            this.setupBoard(unsolvedBoard);
         }
     }]);
 
@@ -407,6 +407,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 function validateInput(e) {
+    // remove background color if tile is being changed 
+    e.target.parentNode.classList.remove('correct', 'incorrect');
+
     // only permit a single number as input 
     if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.data)) {
         e.target.value = '';

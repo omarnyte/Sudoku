@@ -30,10 +30,10 @@ export default class Board {
         // Logic for creating a board with random board generator
         // const [unsolvedBoard, solvedBoard] = generateBoard();
 
-        this.render(unsolvedBoard);
+        this.setupBoard(unsolvedBoard);
     }
 
-    render(unsolvedBoard) {
+    setupBoard(unsolvedBoard) {
         // clear previous board, if any
         const board = document.querySelector('.board');
         board.innerHTML = '';
@@ -78,7 +78,7 @@ export default class Board {
     }
 
     reset(e) {
-        this.render(unsolvedBoard);
+        this.setupBoard(unsolvedBoard);
     }
 }
 
