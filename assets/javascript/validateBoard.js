@@ -53,7 +53,7 @@ function determineSubgrid(col, row) {
 }
 
 function validateRandomNumber() {
-
+    
 }
 
 export default validateRandomNumber;

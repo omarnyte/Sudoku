@@ -125,8 +125,10 @@ export default class Board {
             } else if (tile.value === '') {
                 solved = false;
             } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
-                tile.parentNode.classList.add('wrong');
+                tile.parentNode.classList.add('incorrect');
                 solved = false;
+            } else if (solvedBoard[parseInt(tile.dataset.index)] === parseInt(tile.value)) {
+                tile.parentNode.classList.add('correct');
             }
         });
 
@@ -138,8 +140,8 @@ export default class Board {
     solve(e) {
         const inputs = document.querySelectorAll('.tile.input');
         console.log(inputs);
-        inputs.forEach((input, idx) => {
-            input.value = solvedBoard[idx];
+        inputs.forEach((input) => {
+            input.value = solvedBoard[input.dataset.index];
         }) 
     }
 

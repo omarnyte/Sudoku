@@ -216,8 +216,10 @@ var Board = function () {
                 } else if (tile.value === '') {
                     solved = false;
                 } else if (solvedBoard[parseInt(tile.dataset.index)] !== parseInt(tile.value)) {
-                    tile.parentNode.classList.add('wrong');
+                    tile.parentNode.classList.add('incorrect');
                     solved = false;
+                } else if (solvedBoard[parseInt(tile.dataset.index)] === parseInt(tile.value)) {
+                    tile.parentNode.classList.add('correct');
                 }
             });
 
@@ -230,8 +232,8 @@ var Board = function () {
         value: function solve(e) {
             var inputs = document.querySelectorAll('.tile.input');
             console.log(inputs);
-            inputs.forEach(function (input, idx) {
-                input.value = solvedBoard[idx];
+            inputs.forEach(function (input) {
+                input.value = solvedBoard[input.dataset.index];
             });
         }
     }, {
@@ -328,10 +330,6 @@ function validateInput(e) {
     } else if (e.data.length === 1) {
         e.target.value = e.data;
     }
-
-    // TODO: Validate against all other numbers in row & column 
-    // validate against row 
-    // validate against column 
 }
 
 function determineSubgrid(col, row) {
@@ -369,6 +367,7 @@ function populateTile(num, idx) {
     tileDiv.appendChild(tile);
 
     tile.addEventListener('input', validateInput);
+    // tile.addEventListener('change', () => console.log(e))
 }
 
 exports.default = populateTile;

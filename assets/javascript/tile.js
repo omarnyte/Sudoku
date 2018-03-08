@@ -5,10 +5,6 @@ function validateInput(e) {
     } else if (e.data.length === 1) {
         e.target.value = e.data;
     }
-
-    // TODO: Validate against all other numbers in row & column 
-    // validate against row 
-    // validate against column 
 }
 
 function determineSubgrid(col, row) {
@@ -46,6 +42,7 @@ function populateTile(num, idx) {
     tileDiv.appendChild(tile); 
 
     tile.addEventListener('input', validateInput);
+    // tile.addEventListener('change', () => console.log(e))
 }
 
 export default populateTile;

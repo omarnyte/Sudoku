@@ -20,7 +20,6 @@ button {
     color: white;
     background: rgb(0,161,198);
     text-align: center;
-    text-
 }
 
 button:active {
@@ -32,6 +31,10 @@ button:active {
 
     display: flex;
     flex-direction: column;
+}
+
+h1 {
+    font-size: 25px;
 }
 
 .tile {
@@ -61,7 +64,11 @@ button:active {
     align-items: center; 
 }
 
-.tile-div.wrong {
+.tile-div.correct {
+    border-color: green;
+}
+
+.tile-div.incorrect {
     border-color: red;
 }
 
@@ -72,8 +79,4 @@ button:active {
 .tile-div:nth-child(n+19):nth-child(-n+27), 
 .tile-div:nth-child(n+46):nth-child(-n+54) {
     border-bottom: 3px solid black;
-}
-
-.wrong {
-    border-color: red;
 }
