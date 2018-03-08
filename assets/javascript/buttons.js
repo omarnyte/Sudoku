@@ -8,7 +8,7 @@ function enableButtons(board) {
     giveUpButton.addEventListener('click', board.solve);
 
     const resetButton = document.querySelector('.reset');
-    resetButton.addEventListener('click', board.reset);
+    resetButton.addEventListener('click', board.reset.bind(board));
 }    
 
 export default enableButtons; 

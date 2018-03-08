@@ -1,39 +1,41 @@
 import populateTile from './tile';
+import validateRandomNumber from './validateBoard';
 
-// const unsolvedBoard = [
-//     5, 3, 0, 0, 7, 0, 0, 0, 0,
-//     6, 0, 0, 1, 9, 5, 0, 0, 0,
-//     0, 9, 8, 0, 0, 0, 0, 6, 0,
-//     8, 0, 0, 0, 6, 0, 0, 0, 3,
-//     4, 0, 0, 8, 0, 3, 0, 0, 1,
-//     7, 0, 0, 0, 2, 0, 0, 0, 6,
-//     0, 6, 0, 0, 0, 0, 2, 8, 0,
-//     0, 0, 0, 4, 1, 9, 0, 0, 5,
-//     0, 0, 0, 0, 8, 0, 0, 7, 9
-// ]
+const unsolvedBoard = [
+    5, 3, 0, 0, 7, 0, 0, 0, 0,
+    6, 0, 0, 1, 9, 5, 0, 0, 0,
+    0, 9, 8, 0, 0, 0, 0, 6, 0,
+    8, 0, 0, 0, 6, 0, 0, 0, 3,
+    4, 0, 0, 8, 0, 3, 0, 0, 1,
+    7, 0, 0, 0, 2, 0, 0, 0, 6,
+    0, 6, 0, 0, 0, 0, 2, 8, 0,
+    0, 0, 0, 4, 1, 9, 0, 0, 5,
+    0, 0, 0, 0, 8, 0, 0, 7, 9
+]
 
-// const solvedBoard = [
-//     5, 3, 4, 6, 7, 8, 9, 1, 2,
-//     6, 7, 2, 1, 9, 5, 3, 4, 8,
-//     1, 9, 8, 3, 4, 2, 5, 6, 7,
-//     8, 5, 9, 7, 6, 1, 4, 2, 3,
-//     4, 2, 6, 8, 5, 3, 7, 9, 1,
-//     7, 1, 3, 9, 2, 4, 8, 5, 6,
-//     9, 6, 1, 5, 3, 7, 2, 8, 4,
-//     2, 8, 7, 4, 1, 9, 6, 3, 5,
-//     3, 4, 5, 2, 8, 6, 1, 7, 9
-// ]
+const solvedBoard = [
+    5, 3, 4, 6, 7, 8, 9, 1, 2,
+    6, 7, 2, 1, 9, 5, 3, 4, 8,
+    1, 9, 8, 3, 4, 2, 5, 6, 7,
+    8, 5, 9, 7, 6, 1, 4, 2, 3,
+    4, 2, 6, 8, 5, 3, 7, 9, 1,
+    7, 1, 3, 9, 2, 4, 8, 5, 6,
+    9, 6, 1, 5, 3, 7, 2, 8, 4,
+    2, 8, 7, 4, 1, 9, 6, 3, 5,
+    3, 4, 5, 2, 8, 6, 1, 7, 9
+]
 
 export default class Board { 
     constructor() {
-        const solvedBoard = this.createSolvedBoard();
         // const unsolvedBoard = unsolvedBoard()        
-        // this.render(unsolvedBoard);
-        this.render(solvedBoard);
+        this.render(unsolvedBoard);
+        this.solvedBoard = solvedBoard;
     }
 
     render(unsolvedBoard) {
-        // TODO clear any previous boards 
+        // clear previous board, if any
+        const board = document.querySelector('.board');
+        board.innerHTML = '';
 
         unsolvedBoard.forEach((num, idx) => {
             populateTile(num, idx);
@@ -53,29 +55,14 @@ export default class Board {
             let assigned = false;
             while (!assigned) {
                 const rand = Math.ceil(Math.random() * 9);
-                if (this.validateRow(rand, idx, board)) {
+                if (this.validateSubgrid(rand, idx, board)) {
                     board[idx] = rand;
                     assigned = true;
                 }
             }
         })
 
-        console.log(board);
-
         return board;        
-    } 
-
-    validateRow(rand, idx, board) {
-        const randRowIndex = Math.floor(idx / 9);
-        const rowStart = randRowIndex * 9;
-        const rowEnd = rowStart + 9;
-        for (let i = rowStart; i < rowEnd; i++) {
-            if (rand === board[i]) {
-                return false; 
-            }
-        }
-
-        return true; 
     }
     
     unsolveBoard(solvedBoard) {
@@ -149,11 +136,15 @@ export default class Board {
     }
 
     solve(e) {
-        console.log('solving');
+        const inputs = document.querySelectorAll('.tile.input');
+        console.log(inputs);
+        inputs.forEach((input, idx) => {
+            input.value = solvedBoard[idx];
+        }) 
     }
 
     reset(e) {
-        console.log('resetting');
+        this.render(unsolvedBoard);
     }
 
 

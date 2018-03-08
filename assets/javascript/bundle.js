@@ -91,48 +91,33 @@ var _tile = __webpack_require__(/*! ./tile */ "./assets/javascript/tile.js");
 
 var _tile2 = _interopRequireDefault(_tile);
 
+var _validateBoard = __webpack_require__(/*! ./validateBoard */ "./assets/javascript/validateBoard.js");
+
+var _validateBoard2 = _interopRequireDefault(_validateBoard);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// const unsolvedBoard = [
-//     5, 3, 0, 0, 7, 0, 0, 0, 0,
-//     6, 0, 0, 1, 9, 5, 0, 0, 0,
-//     0, 9, 8, 0, 0, 0, 0, 6, 0,
-//     8, 0, 0, 0, 6, 0, 0, 0, 3,
-//     4, 0, 0, 8, 0, 3, 0, 0, 1,
-//     7, 0, 0, 0, 2, 0, 0, 0, 6,
-//     0, 6, 0, 0, 0, 0, 2, 8, 0,
-//     0, 0, 0, 4, 1, 9, 0, 0, 5,
-//     0, 0, 0, 0, 8, 0, 0, 7, 9
-// ]
+var unsolvedBoard = [5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9];
 
-// const solvedBoard = [
-//     5, 3, 4, 6, 7, 8, 9, 1, 2,
-//     6, 7, 2, 1, 9, 5, 3, 4, 8,
-//     1, 9, 8, 3, 4, 2, 5, 6, 7,
-//     8, 5, 9, 7, 6, 1, 4, 2, 3,
-//     4, 2, 6, 8, 5, 3, 7, 9, 1,
-//     7, 1, 3, 9, 2, 4, 8, 5, 6,
-//     9, 6, 1, 5, 3, 7, 2, 8, 4,
-//     2, 8, 7, 4, 1, 9, 6, 3, 5,
-//     3, 4, 5, 2, 8, 6, 1, 7, 9
-// ]
+var solvedBoard = [5, 3, 4, 6, 7, 8, 9, 1, 2, 6, 7, 2, 1, 9, 5, 3, 4, 8, 1, 9, 8, 3, 4, 2, 5, 6, 7, 8, 5, 9, 7, 6, 1, 4, 2, 3, 4, 2, 6, 8, 5, 3, 7, 9, 1, 7, 1, 3, 9, 2, 4, 8, 5, 6, 9, 6, 1, 5, 3, 7, 2, 8, 4, 2, 8, 7, 4, 1, 9, 6, 3, 5, 3, 4, 5, 2, 8, 6, 1, 7, 9];
 
 var Board = function () {
     function Board() {
         _classCallCheck(this, Board);
 
-        var solvedBoard = this.createSolvedBoard();
         // const unsolvedBoard = unsolvedBoard()        
-        // this.render(unsolvedBoard);
-        this.render(solvedBoard);
+        this.render(unsolvedBoard);
+        this.solvedBoard = solvedBoard;
     }
 
     _createClass(Board, [{
         key: 'render',
         value: function render(unsolvedBoard) {
-            // TODO clear any previous boards 
+            // clear previous board, if any
+            var board = document.querySelector('.board');
+            board.innerHTML = '';
 
             unsolvedBoard.forEach(function (num, idx) {
                 (0, _tile2.default)(num, idx);
@@ -157,30 +142,14 @@ var Board = function () {
                 var assigned = false;
                 while (!assigned) {
                     var rand = Math.ceil(Math.random() * 9);
-                    if (_this.validateRow(rand, idx, board)) {
+                    if (_this.validateSubgrid(rand, idx, board)) {
                         board[idx] = rand;
                         assigned = true;
                     }
                 }
             });
 
-            console.log(board);
-
             return board;
-        }
-    }, {
-        key: 'validateRow',
-        value: function validateRow(rand, idx, board) {
-            var randRowIndex = Math.floor(idx / 9);
-            var rowStart = randRowIndex * 9;
-            var rowEnd = rowStart + 9;
-            for (var i = rowStart; i < rowEnd; i++) {
-                if (rand === board[i]) {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }, {
         key: 'unsolveBoard',
@@ -259,12 +228,16 @@ var Board = function () {
     }, {
         key: 'solve',
         value: function solve(e) {
-            console.log('solving');
+            var inputs = document.querySelectorAll('.tile.input');
+            console.log(inputs);
+            inputs.forEach(function (input, idx) {
+                input.value = solvedBoard[idx];
+            });
         }
     }, {
         key: 'reset',
         value: function reset(e) {
-            console.log('resetting');
+            this.render(unsolvedBoard);
         }
     }]);
 
@@ -344,7 +317,7 @@ function enableButtons(board) {
     giveUpButton.addEventListener('click', board.solve);
 
     var resetButton = document.querySelector('.reset');
-    resetButton.addEventListener('click', board.reset);
+    resetButton.addEventListener('click', board.reset.bind(board));
 }
 
 exports.default = enableButtons;
@@ -440,6 +413,81 @@ function populateTile(num, idx) {
 }
 
 exports.default = populateTile;
+
+/***/ }),
+
+/***/ "./assets/javascript/validateBoard.js":
+/*!********************************************!*\
+  !*** ./assets/javascript/validateBoard.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function validateColumn(rand, idx, board) {
+    var randColIndex = idx % 9;
+    for (var i = randColIndex; i < 81; i += 9) {
+        if (rand === board[i]) return false;
+    }
+    // for (let i = randColIndex * Math.floor(idx % 9); i > 0; i -= 9) {
+    //     console.log(i);
+    //     if (rand === board[i]) {
+    //         return false;
+    //     }
+    // }
+
+    return true;
+}
+
+function validateRow(rand, idx, board) {
+    var randRowIndex = Math.floor(idx / 9);
+    var randColIndex = idx % 9;
+    var rowStart = randRowIndex * 9;
+    var rowEnd = rowStart + 9;
+
+    if (randColIndex === 0) return true;
+    for (var i = idx - 1; i >= rowStart; i--) {
+        if (rand === board[i]) return false;
+    }
+    return true;
+}
+
+function validateSubgrid(rand, idx, board) {
+    var _this = this;
+
+    var randColIndex = idx % 9;
+    var randRowIndex = Math.floor(idx / 9);
+    var randSubgrid = this.determineSubgrid(randColIndex, randRowIndex);
+
+    board.forEach(function (tile, tileIdx) {
+        var tileColIndex = tileIdx % 9;
+        var tileRowIndex = Math.floor(tileIdx / 9);
+        var tileSubgrid = _this.determineSubgrid(tileColIndex, tileRowIndex);
+
+        if (randSubgrid === tileSubgrid && rand === tile && idx !== tileIdx) {
+            console.log('hello');
+            return false;
+        }
+    });
+    return true;
+}
+
+function determineSubgrid(col, row) {
+    // formula to determine subgrid found at: https://medium.com/@0xsven/sudoku-validation-with-javascript-1297712093bf
+    var gridRow = Math.floor(row / 3);
+    var gridCol = Math.floor(col / 3);
+    var subGrid = gridRow * 3 + gridCol;
+    return subGrid;
+}
+
+function validateRandomNumber() {}
+
+exports.default = validateRandomNumber;
 
 /***/ })
 
