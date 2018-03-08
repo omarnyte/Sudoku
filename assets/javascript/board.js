@@ -137,9 +137,16 @@ export default class Board {
         }
     }
 
+    clearHints(e) {
+        const hintedTiles = document.querySelectorAll('.correct, .incorrect');
+        hintedTiles.forEach(tile => {
+            tile.classList.remove('correct');
+            tile.classList.remove('incorrect');
+        }) 
+    }
+
     solve(e) {
         const inputs = document.querySelectorAll('.tile.input');
-        console.log(inputs);
         inputs.forEach((input) => {
             input.value = solvedBoard[input.dataset.index];
         }) 

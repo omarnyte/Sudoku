@@ -228,10 +228,18 @@ var Board = function () {
             }
         }
     }, {
+        key: 'clearHints',
+        value: function clearHints(e) {
+            var hintedTiles = document.querySelectorAll('.correct, .incorrect');
+            hintedTiles.forEach(function (tile) {
+                tile.classList.remove('correct');
+                tile.classList.remove('incorrect');
+            });
+        }
+    }, {
         key: 'solve',
         value: function solve(e) {
             var inputs = document.querySelectorAll('.tile.input');
-            console.log(inputs);
             inputs.forEach(function (input) {
                 input.value = solvedBoard[input.dataset.index];
             });
@@ -273,6 +281,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function enableButtons(board) {
     var submitButton = document.querySelector('.check');
     submitButton.addEventListener('click', board.checkProgress.bind(board));
+
+    var clearButton = document.querySelector('.clear');
+    clearButton.addEventListener('click', board.clearHints);
 
     var giveUpButton = document.querySelector('.give-up');
     giveUpButton.addEventListener('click', board.solve);
