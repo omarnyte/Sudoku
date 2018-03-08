@@ -65,15 +65,35 @@ h1 {
 }
 
 .tile-div.correct {
-    border-color: green;
+    background: rgb(40, 168, 40);
+}
+
+.tile-div.correct > input {
+    color: white;
 }
 
 .tile-div.incorrect {
-    border-color: red;
+    background: red;
+}
+
+.tile-div.incorrect > input {
+    color: white;
 }
 
 .tile-div:nth-child(3n) {
     border-right: 3px solid black;
+}
+
+.tile-div:nth-child(9n) {
+    border-right: 2px solid gray;
+}
+
+.tile-div:nth-child(n+1):nth-child(-n+9) {
+    border-top: 2px solid gray; 
+}
+
+.tile-div:nth-child(n+73):nth-child(-n+81) {
+    border-bottom: 2px solid gray;
 }
 
 .tile-div:nth-child(n+19):nth-child(-n+27), 
