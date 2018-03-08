@@ -1,4 +1,7 @@
 function validateInput(e) {        
+    // remove background color if tile is being changed 
+    e.target.parentNode.classList.remove('correct', 'incorrect');
+    
     // only permit a single number as input 
     if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.data)) {
         e.target.value = '';
