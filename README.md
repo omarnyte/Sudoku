@@ -108,8 +108,8 @@ The responsive styling on the board relies on the addition and removal of classe
 ```
 
 ## Next Steps
-* **Random Board Generator:** 
+* **Random Board Generator:** Currently, the incomplete logic for generating a random board exists in generateBoard.js. The functions `validateColumn(rand, idx, board)`, `validateRow(rand, idx, board)`, and `validateSubmstring(rand, idx, board)`, when combined, check that a randomly generated number is valid when being added to a new board. The next step would be to integrate the logic to reverse the iteration and pick another number when no valid number is possible.
 
 * **Live Hints:** The validation logic used above could be utilized to enable live hints. While the user would not be shown if the correct value for a tile has been filled, the user can be informed if the tile conflicts with another in its column, row, or subgrid.
 
-* **Timed Games:** After the implementation of a board generator, 
+* **Timed Games:** After the implementation of a board generator, I plan on adding a timer for the additional challenge of finishing in a predetermined amount of time. 
