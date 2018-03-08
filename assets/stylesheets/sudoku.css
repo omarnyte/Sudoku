@@ -13,14 +13,25 @@ body {
 }
 
 button {
-    border: 1px solid red; 
+    width: 100%;
+    height: 25px;
+    margin: 5px 0px;
+
+    color: white;
+    background: rgb(0,161,198);
+    text-align: center;
+    text-
+}
+
+button:active {
+    background: aquamarine;
 }
 
 .buttons {
     width: 570px;
 
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
 .tile {
